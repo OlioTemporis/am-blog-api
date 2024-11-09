@@ -18,9 +18,9 @@ async function getAuthors(req, res) {
 async function getAuthor(req, res) {
   const { id } = req.params;
   const query = `
-        SELECT * FROM authors
-        WHERE id = $1;
-    `;
+    SELECT * FROM authors
+    WHERE id = $1;
+  `;
   const values = [id];
   try {
     const result = await pool.query(query, values);
@@ -34,9 +34,9 @@ async function getAuthor(req, res) {
 async function createAuthor(req, res) {
   const { name, email } = req.body;
   const query = `
-        INSERT INTO authors (name, email)
-        VALUES ($1, $2);
-    `;
+    INSERT INTO authors (name, email)
+    VALUES ($1, $2);
+  `;
   const values = [name, email];
 
   try {
@@ -51,9 +51,9 @@ async function createAuthor(req, res) {
 async function deleteAuthor(req, res) {
   const { id } = req.params;
   const query = `
-        DELETE FROM authors
-        WHERE id = $1;
-    `;
+    DELETE FROM authors
+    WHERE id = $1;
+  `;
   const values = [id];
 
   try {
@@ -74,11 +74,11 @@ async function updateAuthor(req, res) {
   const { id } = req.params;
   const { name, email } = req.body;
   const query = `
-        UPDATE authors
-        SET name = $1,
-        email = $2
-        WHERE id = $3;
-    `;
+    UPDATE authors
+    SET name = $1,
+    email = $2
+    WHERE id = $3;
+  `;
   const values = [name, email, id];
   console.log(values);
   try {

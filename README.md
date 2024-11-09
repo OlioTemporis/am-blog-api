@@ -2,7 +2,7 @@
 
 ## About
 
-Truncated version of the project from 100 Days of WebDev (Day 24). Only API perserved to be used as a model. Uses PSQL with the npm library pg.
+Barebones API to be used as a backend. Built with Postgres and Express.
 
 COMPLETED.
 
