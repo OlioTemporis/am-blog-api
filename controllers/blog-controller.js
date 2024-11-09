@@ -17,6 +17,24 @@ async function getAuthors(req, res) {
   }
 }
 
+async function getAuthor(req, res) {
+  const { id } = req.params;
+  console.log(req.params);
+  const query = `
+        SELECT * FROM authors
+        WHERE id = $1;
+    `;
+  const values = [id];
+  try {
+    const result = await pool.query(query, values);
+    console.log(result.rows);
+    res.status(201).json(result.rows);
+  } catch (error) {
+    console.error(`Error connecting to PSQL pool: `, error);
+    res.status(500).json({ error: "Failed to update author data" });
+  }
+}
+
 async function createAuthor(req, res) {
   console.log(req.body);
   const { name, email } = req.body;
@@ -61,6 +79,7 @@ async function deleteAuthor(req, res) {
 module.exports = {
   getHome: getHome,
   getAuthors: getAuthors,
+  getAuthor: getAuthor,
   createAuthor: createAuthor,
   deleteAuthor: deleteAuthor,
 };
