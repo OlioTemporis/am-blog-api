@@ -1,7 +1,10 @@
 const pool = require("../data/database");
 
 async function getPosts(req, res) {
-  const query = `SELECT * FROM posts;`;
+  const query = `
+    SELECT posts.*, authors.name AS author_name FROM posts 
+    INNER JOIN authors ON posts.author_id = authors.id
+  `;
   console.log("fetching all posts");
   try {
     const result = await pool.query(query);
