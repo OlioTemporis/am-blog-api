@@ -10,6 +10,8 @@ router.get("/authors/:id", blogController.getAuthor);
 
 router.post("/authors", blogController.createAuthor);
 
-router.delete("/authors", blogController.deleteAuthor);
+router.delete("/authors/:id/delete", blogController.deleteAuthor);
+
+router.post("/authors/:id/edit", blogController.updateAuthor);
 
 module.exports = router;

@@ -5,12 +5,10 @@ function getHome(req, res) {
 }
 
 async function getAuthors(req, res) {
-  console.log("Client connected to pool to retrieve authors");
   const query = `SELECT * FROM authors;`;
   try {
     const result = await pool.query(query);
-    console.log(result.rows);
-    res.json(result.rows); // Send the result as JSON
+    res.status(201).json(result.rows);
   } catch (error) {
     console.error(`Error connecting to PSQL pool: `, error);
     res.status(500).json({ error: "Failed to retrieve authors" });
@@ -19,7 +17,6 @@ async function getAuthors(req, res) {
 
 async function getAuthor(req, res) {
   const { id } = req.params;
-  console.log(req.params);
   const query = `
         SELECT * FROM authors
         WHERE id = $1;
@@ -27,7 +24,6 @@ async function getAuthor(req, res) {
   const values = [id];
   try {
     const result = await pool.query(query, values);
-    console.log(result.rows);
     res.status(201).json(result.rows);
   } catch (error) {
     console.error(`Error connecting to PSQL pool: `, error);
@@ -36,9 +32,7 @@ async function getAuthor(req, res) {
 }
 
 async function createAuthor(req, res) {
-  console.log(req.body);
   const { name, email } = req.body;
-  console.log(name, email);
   const query = `
         INSERT INTO authors (name, email)
         VALUES ($1, $2);
@@ -55,12 +49,12 @@ async function createAuthor(req, res) {
 }
 
 async function deleteAuthor(req, res) {
-  const { id } = req.body;
+  const { id } = req.params;
   const query = `
         DELETE FROM authors
         WHERE id = $1;
     `;
-  const values = [id]; // Array with the ID to delete
+  const values = [id];
 
   try {
     const result = await pool.query(query, values);
@@ -76,10 +70,33 @@ async function deleteAuthor(req, res) {
   }
 }
 
+async function updateAuthor(req, res) {
+  const { id } = req.params;
+  const { name, email } = req.body;
+  const query = `
+        UPDATE authors
+        SET name = $1,
+        email = $2
+        WHERE id = $3;
+    `;
+  const values = [name, email, id];
+  console.log(values);
+  try {
+    await pool.query(query, values);
+    res.status(200).json({
+      message: "Successfully updated author",
+    });
+  } catch (error) {
+    console.error(`Error updating author: `, error);
+    res.status(500).json({ error: "Failed to update author data" });
+  }
+}
+
 module.exports = {
   getHome: getHome,
   getAuthors: getAuthors,
   getAuthor: getAuthor,
   createAuthor: createAuthor,
   deleteAuthor: deleteAuthor,
+  updateAuthor: updateAuthor,
 };
