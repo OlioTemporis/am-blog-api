@@ -7,4 +7,6 @@ router.get("/", blogController.getHome);
 
 router.get("/authors", blogController.getAuthors);
 
+router.post("/authors", blogController.createAuthor);
+
 module.exports = router;
