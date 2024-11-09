@@ -18,9 +18,9 @@ async function getPosts(req, res) {
 async function getPost(req, res) {
   const { id } = req.params;
   const query = `
-          SELECT * FROM posts
-          WHERE id = $1;
-      `;
+    SELECT * FROM posts
+    WHERE id = $1;
+  `;
   const values = [id];
   console.log("fetching post with id " + id);
   try {
@@ -35,9 +35,9 @@ async function getPost(req, res) {
 async function createPost(req, res) {
   const { title, summary, body, author_id } = req.body;
   const query = `
-          INSERT INTO posts (title, summary, body, author_id)
-          VALUES ($1, $2, $3, $4);
-      `;
+    INSERT INTO posts (title, summary, body, author_id)
+    VALUES ($1, $2, $3, $4);
+  `;
   const values = [title, summary, body, author_id];
 
   try {
@@ -52,9 +52,9 @@ async function createPost(req, res) {
 async function deletePost(req, res) {
   const { id } = req.params;
   const query = `
-          DELETE FROM posts
-          WHERE id = $1;
-      `;
+    DELETE FROM posts
+    WHERE id = $1;
+  `;
   const values = [id];
 
   try {
@@ -75,12 +75,12 @@ async function updatePost(req, res) {
   const { id } = req.params;
   const { title, summary, body } = req.body;
   const query = `
-          UPDATE posts
-          SET title = $1,
-          summary = $2,
-          body = $3
-          WHERE id = $4;
-      `;
+    UPDATE posts
+    SET title = $1,
+    summary = $2,
+    body = $3
+    WHERE id = $4;
+  `;
   const values = [title, summary, body, id];
   console.log(values);
   try {
